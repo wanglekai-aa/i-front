@@ -22,3 +22,17 @@ export const isMobileTerminal = computed(() => {
   )
 })
 */
+
+/**
+ * 动态指定 rem 基准值，最大为 40px
+ * 根据设备屏幕的宽度，进行计算，把计算出来的值 赋值给 html 根标签作为 fontSize 的大小
+ */
+export const useRem = () => {
+  const MAX_FONT_SIZE = 40
+  document.addEventListener('DOMContentLoaded', () => {
+    const html = document.querySelector('html')
+    let fontSize = window.innerWidth / 10
+    fontSize = fontSize > MAX_FONT_SIZE ? MAX_FONT_SIZE : fontSize
+    html.style.fontSize = fontSize + 'px'
+  })
+}
