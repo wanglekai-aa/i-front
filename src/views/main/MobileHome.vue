@@ -1,6 +1,5 @@
 <template>
   <div>
-    <h2>Mobile Home</h2>
     <navigation-index />
   </div>
 </template>
