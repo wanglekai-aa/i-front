@@ -5,7 +5,7 @@
       <li
         class="fixed z-20 top-0 right-[-1px] h-4 px-1 flex items-center bg-white shadow-l-white"
       >
-        <m-svg-icon class="w-1.5 h-1.5" />
+        <m-svg-icon class="w-1.5 h-1.5" name="hamburger" />
       </li>
       <li
         class="shrink-0 px-1.5 py-0.5 z-10 duration-200 last:mr-4"
