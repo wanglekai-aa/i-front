@@ -1,5 +1,5 @@
 <template>
-  <navigation-mobile v-if="isMobileTerminal" />
+  <navigation-mobile v-if="isMobileTerminal" :categories="categories" />
 </template>
 
 <script setup>
@@ -7,10 +7,13 @@ import NavigationMobile from './NavigationMobile.vue'
 
 import { isMobileTerminal } from '@/utils/flexible'
 import { getCategory } from '@/api/category'
+import { ref } from '@vue/reactivity'
+
+const categories = ref([])
 
 const getCategoryData = async () => {
   const { categorys } = await getCategory()
-  console.log(categorys)
+  categories.value = categorys
 }
 getCategoryData()
 </script>
