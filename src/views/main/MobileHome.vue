@@ -1,9 +1,12 @@
 <template>
-  <div>Mobile Home</div>
+  <div>
+    <h2>Mobile Home</h2>
+    <navigation-index />
+  </div>
 </template>
 
-<script>
-export default {}
+<script setup>
+import NavigationIndex from './components/navigation/NavigationIndex.vue'
 </script>
 
 <style></style>
