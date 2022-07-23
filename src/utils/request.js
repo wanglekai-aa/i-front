@@ -1,8 +1,13 @@
 import axios from 'axios'
-
 const request = axios.create({
-  baseURL: '',
+  baseURL: import.meta.env.VITE_BASE_API,
   timeout: 5000
+})
+
+// 请求拦截器
+request.interceptors.request.use((config) => {
+  config.headers.icode = '5C05D847DC5F4978'
+  return config
 })
 
 // 响应拦截器
