@@ -13,6 +13,7 @@
       <!-- 汉堡按钮 -->
       <li
         class="fixed z-20 top-0 right-[-1px] h-4 px-1 flex items-center bg-white shadow-l-white"
+        @click="isOpenPopup = !isOpenPopup"
       >
         <m-svg-icon class="w-1.5 h-1.5" name="hamburger" />
       </li>
@@ -27,6 +28,9 @@
         {{ category.name }}
       </li>
     </ul>
+    <m-popup v-model="isOpenPopup">
+      <div>test</div>
+    </m-popup>
   </div>
 </template>
 
@@ -41,6 +45,8 @@ defineProps({
     required: true
   }
 })
+
+const isOpenPopup = ref(false)
 
 // 滑块样式
 const sliderStyle = ref({
