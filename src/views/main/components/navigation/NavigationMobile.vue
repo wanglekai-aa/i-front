@@ -45,7 +45,7 @@ defineProps({
 // 滑块样式
 const sliderStyle = ref({
   transform: 'translateX(0px)',
-  width: '60px'
+  width: '52px'
 })
 
 // 获取所有 item 元素
