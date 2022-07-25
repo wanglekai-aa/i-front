@@ -29,7 +29,7 @@
       </li>
     </ul>
     <m-popup v-model="isOpenPopup">
-      <div>test</div>
+      <menu-vue :categorys="categories" @onItemClick="onItemClick" />
     </m-popup>
   </div>
 </template>
@@ -38,6 +38,7 @@
 import { ref } from '@vue/reactivity'
 import { onBeforeUpdate, watch } from '@vue/runtime-core'
 import { useScroll } from '@vueuse/core'
+import menuVue from '../menu/menu.vue'
 
 defineProps({
   categories: {
@@ -74,6 +75,10 @@ watch(currentCategoryIndex, (val) => {
     transform: `translateX(${ulScrollLeft.value + left - 10}px)`,
     width: width + 'px'
   }
+  if (isOpenPopup.value) {
+    isOpenPopup.value = false
+    ulTarget.value.scrollLeft = left + ulTarget.value.scrollLeft - 10
+  }
 })
 
 const ulTarget = ref(null)
@@ -83,6 +88,14 @@ let { x: ulScrollLeft } = useScroll(ulTarget)
 // 切换事件
 const handleTagClick = (index) => {
   if (currentCategoryIndex.value === index) return
+
+  currentCategoryIndex.value = index
+}
+
+const onItemClick = (index) => {
+  if (currentCategoryIndex.value === index && isOpenPopup.value) {
+    isOpenPopup.value = false
+  }
   currentCategoryIndex.value = index
 }
 </script>
