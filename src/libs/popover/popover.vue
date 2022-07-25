@@ -35,6 +35,9 @@ const placementEnum = [
   PROP_RIGHT_TOP,
   PROP_RIGHT_BUTTOM
 ]
+
+// 延迟关闭弹层时间
+const DELAY_TIEM = 200
 </script>
 
 <script setup>
@@ -65,14 +68,21 @@ const props = defineProps({
 
 const isVisable = ref(false)
 
+// 控制延迟关闭
+let timeout
+
 // 鼠标移入
 const onMouseenter = () => {
   isVisable.value = true
+  if (timeout) clearTimeout(timeout)
 }
 
 // 鼠标移出
 const onMouseleave = () => {
-  isVisable.value = false
+  timeout = setTimeout(() => {
+    isVisable.value = false
+    timeout = null
+  }, DELAY_TIEM)
 }
 
 // 计算元素尺寸
