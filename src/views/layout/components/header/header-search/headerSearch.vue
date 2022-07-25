@@ -1,3 +1,5 @@
 <template>
-  <div>header-search</div>
+  <div class="w-full">
+    <m-search />
+  </div>
 </template>
