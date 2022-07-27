@@ -1,12 +1,12 @@
 import { getCategory } from '@/api/category'
-import { ALL_CATEGORY_ITEM } from '@/constants'
+import { ALL_CATEGORY_ITEM, CATEGORY_NOMAR_DATA } from '@/constants'
 // 处理 navigationBar 中的 category
 export default {
   // 独立作用域
   namespaced: true,
   state: () => {
     return {
-      categories: [ALL_CATEGORY_ITEM]
+      categories: []
     }
   },
   mutations: {
