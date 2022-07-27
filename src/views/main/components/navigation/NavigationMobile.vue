@@ -20,7 +20,7 @@
       <li
         class="shrink-0 px-1.5 py-0.5 z-10 duration-200 last:mr-4"
         :class="{ 'text-zinc-100': currentCategoryIndex === index }"
-        v-for="(category, index) in categories"
+        v-for="(category, index) in $store.getters.categories"
         :key="category.id"
         :ref="setItemRef"
         @click="handleTagClick(index)"
@@ -29,7 +29,7 @@
       </li>
     </ul>
     <m-popup v-model="isOpenPopup">
-      <menu-vue :categorys="categories" @onItemClick="onItemClick" />
+      <menu-vue @onItemClick="onItemClick" />
     </m-popup>
   </div>
 </template>
@@ -39,13 +39,6 @@ import { ref } from '@vue/reactivity'
 import { onBeforeUpdate, watch } from '@vue/runtime-core'
 import { useScroll } from '@vueuse/core'
 import menuVue from '../menu/menu.vue'
-
-defineProps({
-  categories: {
-    type: Array,
-    required: true
-  }
-})
 
 const isOpenPopup = ref(false)
 
