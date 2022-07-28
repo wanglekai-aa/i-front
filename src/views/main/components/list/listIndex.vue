@@ -3,8 +3,9 @@
     <!-- <list-item v-for="item in pexelsList" :key="item.id" :data="item" /> -->
     <m-waterfall
       :data="pexelsList"
-      :column="5"
+      :column="isMobileTerminal ? 2 : 5"
       nodeKey="id"
+      class="w-full px-1"
       :picturePreReading="true"
     >
       <template v-slot="{ item }">
@@ -19,6 +20,7 @@
 import listItem from './listItem.vue'
 import { getPexelsList } from '@/api/pexels.js'
 import { ref } from '@vue/reactivity'
+import { isMobileTerminal } from '@/utils/flexible.js'
 
 let query = {
   page: 1,

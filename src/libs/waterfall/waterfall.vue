@@ -126,6 +126,7 @@ let itemHeights = []
 // 图片高度未知
 // 监听图片加载完成
 const waitImgComplate = () => {
+  itemHeights = []
   // 拿到所有元素
   let itemElements = [...document.getElementsByClassName('m-waterfall-item')]
   // 获取所有元素的 img 标签
@@ -144,6 +145,7 @@ const waitImgComplate = () => {
 
 // 不需要图片预加载
 const useItemHeight = () => {
+  itemHeights = []
   let itemElements = [...document.getElementsByClassName('m-waterfall-item')]
   itemElements.forEach((el) => {
     itemHeights.push(el.offsetHeight)
@@ -163,7 +165,7 @@ const useItemLocation = () => {
     // 指定列高自增
     increasingHeight(index)
   })
-  containerHeight.value = getMaxHeight(columnHeightObj.value) + 50
+  containerHeight.value = getMaxHeight(columnHeightObj.value)
 }
 
 // 返回下一个 item 的 left
@@ -204,6 +206,23 @@ watch(
   {
     immediate: true,
     deep: true
+  }
+)
+
+// 监听列数变化，重新构建瀑布流
+const reset = () => {
+  setTimeout(() => {
+    useColumnWidth()
+    props.data.forEach((item) => {
+      item._style = null
+    })
+  }, 100)
+}
+watch(
+  () => props.column,
+  () => {
+    columnWidth.value = 0
+    reset()
   }
 )
 </script>
