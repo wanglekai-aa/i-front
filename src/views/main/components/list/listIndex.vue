@@ -6,11 +6,10 @@
       :column="isMobileTerminal ? 2 : 5"
       nodeKey="id"
       class="w-full px-1"
-      :picturePreReading="true"
+      :picturePreReading="false"
     >
-      <template v-slot="{ item }">
-        <!-- {{ item.photoLink }} -- {{ width }} -->
-        <list-item :data="item" />
+      <template v-slot="{ item, width }">
+        <list-item :data="item" :width="width" />
       </template>
     </m-waterfall>
   </div>

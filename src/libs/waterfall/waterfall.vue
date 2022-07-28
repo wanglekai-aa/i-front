@@ -211,18 +211,20 @@ watch(
 
 // 监听列数变化，重新构建瀑布流
 const reset = () => {
-  setTimeout(() => {
-    useColumnWidth()
-    props.data.forEach((item) => {
-      item._style = null
-    })
-  }, 100)
+  useColumnWidth()
+  props.data.forEach((item) => {
+    item._style = null
+  })
 }
 watch(
   () => props.column,
   () => {
-    columnWidth.value = 0
-    reset()
+    if (props.picturePreReading) {
+      columnWidth.value = 0
+      nextTick(reset)
+    } else {
+      reset()
+    }
   }
 )
 </script>

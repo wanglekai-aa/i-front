@@ -4,6 +4,9 @@
       <img
         class="w-full rounded bg-transparent"
         :src="data.photo"
+        :style="{
+          height: (width / data.photoWidth) * data.photoHeight + 'px'
+        }"
         alt="photo"
       />
       <!-- 遮罩层 -->
@@ -54,6 +57,10 @@ defineProps({
   data: {
     required: true,
     type: Object
+  },
+  width: {
+    default: 0,
+    type: Number
   }
 })
 </script>
