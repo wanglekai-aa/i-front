@@ -1,11 +1,16 @@
 <template>
-  <div>
-    <list-item v-for="item in pexelsList" :key="item.id" :data="item" />
+  <div class="text-sm">
+    <!-- <list-item v-for="item in pexelsList" :key="item.id" :data="item" /> -->
+    <m-waterfall :data="pexelsList" :column="5">
+      <template v-slot="{ item, width }">
+        {{ item.photoLink }} -- {{ width }}
+      </template>
+    </m-waterfall>
   </div>
 </template>
 
 <script setup>
-import listItem from './listItem.vue'
+// import listItem from './listItem.vue'
 import { getPexelsList } from '@/api/pexels.js'
 import { ref } from '@vue/reactivity'
 
