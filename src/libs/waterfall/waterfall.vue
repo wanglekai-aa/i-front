@@ -26,8 +26,22 @@
 
 <script setup>
 import { ref } from '@vue/reactivity'
-import { computed, nextTick, onMounted, watch } from '@vue/runtime-core'
-import { getAllImg, getImgElements, onComplateImgs } from './utils'
+import {
+  computed,
+  nextTick,
+  onMounted,
+  onUnmounted,
+  watch
+} from '@vue/runtime-core'
+
+import {
+  getAllImg,
+  getImgElements,
+  onComplateImgs,
+  getMinHeight,
+  getMinHeightColumn,
+  getMaxHeight
+} from './utils'
 
 const props = defineProps({
   // 数据源
@@ -97,6 +111,12 @@ onMounted(() => {
   useColumnWidth()
   // console.log(columnWidth.value)
 })
+onUnmounted(() => {
+  // 组件销毁时，清楚所有的 _style
+  props.data.forEach((item) => {
+    delete item._style
+  })
+})
 
 // 需要图片预加载
 
@@ -133,13 +153,46 @@ const useItemHeight = () => {
 
 // 为每个 item 生成位置
 const useItemLocation = () => {
-  console.log('itemHeights: ', itemHeights)
+  props.data.forEach((item, index) => {
+    // 避免重复计算
+    if (item._style) return
+    item._style = {}
+    item._style.left = getItemLeft()
+    item._style.top = getItemTop()
+    // console.log(item._style)
+    // 指定列高自增
+    increasingHeight(index)
+  })
+  containerHeight.value = getMaxHeight(columnHeightObj.value) + 50
+}
+
+// 返回下一个 item 的 left
+const getItemLeft = () => {
+  // 最小高度所在的列 * (列宽 + 间距)
+  const column = getMinHeightColumn(columnHeightObj.value)
+
+  return (
+    column * (columnWidth.value + props.columnSpacing) + containerLeft.value
+  )
+}
+// 返回下一个 item 的 top
+const getItemTop = () => {
+  return getMinHeight(columnHeightObj.value)
+}
+
+// 指定列高自增
+const increasingHeight = (index) => {
+  const minHeightColumn = getMinHeightColumn(columnHeightObj.value)
+  columnHeightObj.value[minHeightColumn] +=
+    itemHeights[index] + props.rowSpacing
 }
 
 // 监听数据获取时，触发对应的计算：
 watch(
   () => props.data,
   (val) => {
+    const resetColumnHeight = val.every((item) => !item._style)
+    if (resetColumnHeight) useColumnHeightObj()
     nextTick(() => {
       if (props.picturePreReading) {
         waitImgComplate()
