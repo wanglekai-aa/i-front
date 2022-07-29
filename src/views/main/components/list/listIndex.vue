@@ -41,7 +41,7 @@ const isFinished = ref(false)
 const pexelsList = ref([])
 const getPexelsData = async () => {
   if (isFinished.value) return
-  isLoading.value = true
+  // isLoading.value = true
 
   // 完成第一次请求后，后续让 page 自增
   if (pexelsList.value.length) query.page++
@@ -56,5 +56,5 @@ const getPexelsData = async () => {
   }
   isLoading.value = false
 }
-getPexelsData()
+// getPexelsData()
 </script>
