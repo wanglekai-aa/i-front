@@ -4,7 +4,7 @@
   >
     <div class="flex items-center">
       <router-link to="/" class="w-4 h-4 mr-2">
-        <img src="@/assets/logo.jpg" class="w-full" alt="logo" />
+        <img v-lazy src="@/assets/logo.jpg" class="w-full" alt="logo" />
       </router-link>
       <header-search class="mr-1" />
       <header-theme class="mr-1" />
