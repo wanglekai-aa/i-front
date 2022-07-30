@@ -32,6 +32,7 @@
           size="small"
           icon="download"
           iconClass="fill-zinc-900 dark:fill-zinc-200"
+          @click="onDownload"
         />
         <m-button
           class="absolute bottom-1.5 right-1.5 bg-zinc-100/70"
@@ -65,7 +66,8 @@
 
 <script setup>
 import { randomRGB } from '@/utils/color.js'
-defineProps({
+import { saveAs } from 'file-saver'
+const props = defineProps({
   data: {
     required: true,
     type: Object
@@ -75,4 +77,8 @@ defineProps({
     type: Number
   }
 })
+
+const onDownload = () => {
+  saveAs(props.data.photoDownLink)
+}
 </script>
