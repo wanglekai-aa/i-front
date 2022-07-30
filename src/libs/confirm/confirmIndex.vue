@@ -39,7 +39,7 @@
 <script setup>
 // 在方法调用的组件中，需要主动导入组件
 import mButton from '../button/button.vue'
-import { onMounted } from '@vue/runtime-core'
+import { onMounted, ref } from '@vue/runtime-core'
 
 const props = defineProps({
   // 标题

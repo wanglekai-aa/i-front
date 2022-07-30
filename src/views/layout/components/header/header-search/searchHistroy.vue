@@ -33,6 +33,7 @@ const EMITS_ITEM_CLICK = 'itemClick'
 </script>
 
 <script setup>
+import { mConfirm } from '@/libs'
 import { useStore } from 'vuex'
 
 const store = useStore()
@@ -41,7 +42,13 @@ const emits = defineEmits([EMITS_ITEM_CLICK])
 
 // 清空历史记录
 const onDeleteAllClick = () => {
-  store.commit('search/removeAllHistory')
+  mConfirm('提示', '删除后无法撤销')
+    .then(() => {
+      store.commit('search/removeAllHistory')
+    })
+    .catch(({ message }) => {
+      console.log(message)
+    })
 }
 // 删除指定历史记录
 const onDeleteClick = (index) => {

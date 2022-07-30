@@ -63,6 +63,7 @@ const sizeEnum = {
 </script>
 
 <script setup>
+import mSvgIcon from '../svg-icon/SvgIcon.vue'
 /**
  * 1. 构建 type 风格可选项和 size 大小可选项
  * 2. 通过 props 让开发者控制按钮
