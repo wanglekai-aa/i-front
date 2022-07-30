@@ -27,6 +27,8 @@ import listItem from './listItem.vue'
 import { getPexelsList } from '@/api/pexels.js'
 import { ref } from '@vue/reactivity'
 import { isMobileTerminal } from '@/utils/flexible.js'
+import { watch } from '@vue/runtime-core'
+import { useStore } from 'vuex'
 
 let query = {
   page: 1,
@@ -57,4 +59,23 @@ const getPexelsData = async () => {
   isLoading.value = false
 }
 // getPexelsData()
+
+// 重制查询参数，并清空数据
+const resetQuery = (newQuery) => {
+  query = { ...query, ...newQuery }
+  isFinished.value = false
+  // 情况数据，触发 getPexelsData
+  pexelsList.value = []
+}
+const store = useStore()
+watch(
+  () => store.getters.currentCategory,
+  // 选中项发送变化，触发重制参数
+  (currentCategory) => {
+    resetQuery({
+      page: 1,
+      categoryId: currentCategory.id
+    })
+  }
+)
 </script>

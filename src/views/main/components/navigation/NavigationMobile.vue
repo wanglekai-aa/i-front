@@ -20,12 +20,13 @@
       <li
         class="shrink-0 px-1.5 py-0.5 z-10 duration-200 last:mr-4"
         :class="{
-          'text-zinc-100 dark:text-zinc-700': currentCategoryIndex === index
+          'text-zinc-100 dark:text-zinc-700':
+            $store.getters.currentCategoryIndex === index
         }"
         v-for="(category, index) in $store.getters.categories"
         :key="category.id"
         :ref="setItemRef"
-        @click="handleTagClick(index)"
+        @click="handleTagClick(category)"
       >
         {{ category.name }}
       </li>
@@ -40,9 +41,11 @@
 import { ref } from '@vue/reactivity'
 import { onBeforeUpdate, watch } from '@vue/runtime-core'
 import { useScroll } from '@vueuse/core'
+import { useStore } from 'vuex'
 import menuVue from '../menu/menu.vue'
 
 const isOpenPopup = ref(false)
+const store = useStore()
 
 // 滑块样式
 const sliderStyle = ref({
@@ -60,37 +63,35 @@ onBeforeUpdate(() => {
   itemRefs = []
 })
 
-// 选中 item 下标
-const currentCategoryIndex = ref(0)
-
-watch(currentCategoryIndex, (val) => {
-  // 选中元素的 left 和 width
-  const { left, width } = itemRefs[val].getBoundingClientRect()
-  sliderStyle.value = {
-    transform: `translateX(${ulScrollLeft.value + left - 10}px)`,
-    width: width + 'px'
+watch(
+  () => store.getters.currentCategoryIndex,
+  (val) => {
+    // 选中元素的 left 和 width
+    const { left, width } = itemRefs[val].getBoundingClientRect()
+    sliderStyle.value = {
+      transform: `translateX(${ulScrollLeft.value + left - 10}px)`,
+      width: width + 'px'
+    }
+    if (isOpenPopup.value) {
+      isOpenPopup.value = false
+      ulTarget.value.scrollLeft = left + ulTarget.value.scrollLeft - 10
+    }
   }
-  if (isOpenPopup.value) {
-    isOpenPopup.value = false
-    ulTarget.value.scrollLeft = left + ulTarget.value.scrollLeft - 10
-  }
-})
+)
 
 const ulTarget = ref(null)
 // 通过 vueuse - useScroll 获取响应式 scroll 滚动距离
 let { x: ulScrollLeft } = useScroll(ulTarget)
 
 // 切换事件
-const handleTagClick = (index) => {
-  if (currentCategoryIndex.value === index) return
-
-  currentCategoryIndex.value = index
+const handleTagClick = (category) => {
+  store.commit('app/changeCurrentCategory', category)
 }
 
-const onItemClick = (index) => {
-  if (currentCategoryIndex.value === index && isOpenPopup.value) {
+const onItemClick = ({ item, index }) => {
+  if (store.getters.currentCategoryIndex === index && isOpenPopup.value) {
     isOpenPopup.value = false
   }
-  currentCategoryIndex.value = index
+  store.commit('app/changeCurrentCategory', item)
 }
 </script>
