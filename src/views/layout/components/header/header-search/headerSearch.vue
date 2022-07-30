@@ -9,6 +9,8 @@
             :searchText="inputValue"
             @itemClick="onSearchHandler"
           />
+          <!-- 最近搜索 -->
+          <search-histroy v-show="!inputValue" @itemClick="onSearchHandler" />
         </div>
       </template>
     </m-search>
@@ -17,7 +19,11 @@
 
 <script setup>
 import { ref } from '@vue/reactivity'
+import { useStore } from 'vuex'
 import searchHint from './searchHint.vue'
+import searchHistroy from './searchHistroy.vue'
+
+const store = useStore()
 
 const inputValue = ref('')
 
@@ -31,5 +37,6 @@ const handlerFocus = () => {
 
 const onSearchHandler = (v) => {
   inputValue.value = v
+  store.commit('search/addHistory', v)
 }
 </script>
