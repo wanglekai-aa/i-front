@@ -11,6 +11,9 @@
           />
           <!-- 最近搜索 -->
           <search-histroy v-show="!inputValue" @itemClick="onSearchHandler" />
+
+          <!-- 推荐主题 -->
+          <theme-index v-show="!inputValue" />
         </div>
       </template>
     </m-search>
@@ -22,6 +25,7 @@ import { ref } from '@vue/reactivity'
 import { useStore } from 'vuex'
 import searchHint from './searchHint.vue'
 import searchHistroy from './searchHistroy.vue'
+import themeIndex from './theme.vue'
 
 const store = useStore()
 
