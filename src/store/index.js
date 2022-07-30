@@ -17,7 +17,7 @@ const store = createStore({
   plugins: [
     createPersistedState({
       key: 'i-front',
-      path: ['category', 'theme']
+      path: ['category', 'theme', 'search']
     })
   ]
 })
