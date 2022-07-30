@@ -42,5 +42,6 @@ const handlerFocus = () => {
 const onSearchHandler = (v) => {
   inputValue.value = v
   store.commit('search/addHistory', v)
+  store.commit('app/changeSearchText', v)
 }
 </script>

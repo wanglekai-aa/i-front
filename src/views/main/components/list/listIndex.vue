@@ -78,4 +78,15 @@ watch(
     })
   }
 )
+
+// 监听搜索内容的变化
+watch(
+  () => store.getters.searchText,
+  (val) => {
+    resetQuery({
+      page: 1,
+      searchText: val
+    })
+  }
+)
 </script>

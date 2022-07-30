@@ -10,5 +10,7 @@ export default {
     })
   },
   // 搜索历史记录
-  searchHistories: (state) => state.search.histories
+  searchHistories: (state) => state.search.histories,
+  // 搜索文本
+  searchText: (state) => state.app.searchText
 }

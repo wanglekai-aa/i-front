@@ -121,6 +121,7 @@ const onFocusHandle = () => {
 
 // 失去焦点
 const onBlurHandle = () => {
+  isFocus.value = false
   emits(EMIT_BLUR)
 }
 

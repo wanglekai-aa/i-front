@@ -16,6 +16,7 @@
         class="mr-2 mb-1.5 flex items-center cursor-pointer bg-zinc-100 px-1.5 py-0.5 text-zinc-700 text-sm font-bold rounded-sm duration-300 hover:bg-zinc-200"
         v-for="(item, index) in $store.getters.searchHistories"
         :key="item"
+        @click="onItemClick(item)"
       >
         <span>{{ item }}</span>
         <m-svg-icon
