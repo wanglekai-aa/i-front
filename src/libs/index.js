@@ -2,6 +2,8 @@ import { defineAsyncComponent } from 'vue'
 
 export { mConfirm } from '@/libs/confirm'
 
+export { mMessage } from '@/libs/message'
+
 export default {
   install(app) {
     // vite 通用组件自动化注册

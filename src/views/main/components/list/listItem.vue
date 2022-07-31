@@ -67,6 +67,8 @@
 <script setup>
 import { randomRGB } from '@/utils/color.js'
 import { saveAs } from 'file-saver'
+import { mMessage } from '@/libs'
+
 const props = defineProps({
   data: {
     required: true,
@@ -79,6 +81,11 @@ const props = defineProps({
 })
 
 const onDownload = () => {
-  saveAs(props.data.photoDownLink)
+  // 提示消息
+  mMessage('success', '图片开始下载')
+  // 延迟一段时间执行，可以得到更好的体验
+  setTimeout(() => {
+    saveAs(props.data.photoDownLink)
+  }, 100)
 }
 </script>
