@@ -8,6 +8,7 @@
         name="guide"
         class="w-2 h-2"
         fillClass="fill-zinc-900 dark:fill-zinc-200 group-hover:fill-main"
+        @click="onGuideClick"
       />
     </div>
 
@@ -15,7 +16,7 @@
     <m-popover class="flex items-center guide-feedback" placement="left-top">
       <template #reference>
         <div
-          class="w-4 h-4 bg-white dark:bg-zinc-200 border dark:border-0 border-zinc-200 rounded-full flex items-center justify-center cursor-pointer duration-200 group hover:shadow-lg"
+          class="guide-feedback w-4 h-4 bg-white dark:bg-zinc-200 border dark:border-0 border-zinc-200 rounded-full flex items-center justify-center cursor-pointer duration-200 group hover:shadow-lg"
         >
           <m-svg-icon
             name="feedback"
@@ -39,3 +40,31 @@
     </m-popover>
   </div>
 </template>
+
+<script setup>
+import Driver from 'driver.js'
+import 'driver.js/dist/driver.min.css'
+import { onMounted } from 'vue'
+import steps from './steps'
+
+// 引导页处理
+
+let driver = null
+onMounted(() => {
+  driver = new Driver({
+    // 禁止点击蒙版关闭
+    allowClose: false,
+    closeBtnText: '关闭',
+    nextBtnText: '下一个',
+    prevBtnText: '上一个'
+  })
+})
+
+/**
+ * 开始引导
+ */
+const onGuideClick = () => {
+  driver.defineSteps(steps)
+  driver.start()
+}
+</script>

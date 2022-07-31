@@ -1,5 +1,5 @@
 <template>
-  <m-popover class="flex items-center" placement="left-bottom">
+  <m-popover class="guide-my flex items-center" placement="left-bottom">
     <template #reference>
       <div
         class="guide-my relative flex items-center p-0.5 rounded-sm cursor-pointer duration-200 outline-none hover:bg-zinc-100 dark:hover:bg-zinc-900"

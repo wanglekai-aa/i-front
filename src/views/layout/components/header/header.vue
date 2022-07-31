@@ -3,7 +3,7 @@
     class="w-full bg-white dark:bg-zinc-800 dark:border-b-zinc-700 border-b border-b-zinc-200 py-1 px-2 duration-500"
   >
     <div class="flex items-center">
-      <router-link to="/" class="w-4 h-4 mr-2">
+      <router-link to="/" class="w-4 h-4 mr-2 guide-home">
         <img v-lazy src="@/assets/logo.jpg" class="w-full" alt="logo" />
       </router-link>
       <header-search class="mr-1" />

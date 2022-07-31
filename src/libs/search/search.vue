@@ -1,7 +1,7 @@
 <template>
   <div
     ref="containerTarget"
-    class="group relative p-0.5 rounded-xl border-white duration-500 hover:bg-red-100/40"
+    class="guide-search group relative p-0.5 rounded-xl border-white duration-500 hover:bg-red-100/40"
   >
     <div>
       <!-- 搜索图标 -->
