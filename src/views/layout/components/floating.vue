@@ -56,7 +56,8 @@ onMounted(() => {
     allowClose: false,
     closeBtnText: '关闭',
     nextBtnText: '下一个',
-    prevBtnText: '上一个'
+    prevBtnText: '上一个',
+    doneBtnText: '完成'
   })
 })
 
@@ -68,3 +69,10 @@ const onGuideClick = () => {
   driver.start()
 }
 </script>
+
+<style scoped>
+.driver-fix-stacking {
+  position: fixed;
+  z-index: 100004 !important;
+}
+</style>
