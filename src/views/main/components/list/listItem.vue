@@ -105,7 +105,7 @@ const {
   y: imgContainerY,
   width: imgContainerWidth,
   height: imgContainerHeight
-} = useElementBounding(imgTarget)
+} = useElementBounding(imgTarget.value)
 
 const imgContainerCenter = computed(() => {
   return {

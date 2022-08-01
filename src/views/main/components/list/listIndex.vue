@@ -36,7 +36,7 @@
 import listItem from './listItem.vue'
 import pinsVue from '@/views/pins/components/pins.vue'
 import { getPexelsList } from '@/api/pexels.js'
-import { ref, nextTick } from 'vue'
+import { ref } from 'vue'
 import { isMobileTerminal } from '@/utils/flexible.js'
 import { watch } from '@vue/runtime-core'
 import { useStore } from 'vuex'
@@ -98,7 +98,8 @@ const beforeEnter = (el) => {
     scaleY: 0,
     transformOrigin: '0 0',
     translateX: currentPins.value.localtion?.translateX,
-    translateY: currentPins.value.localtion?.translateY
+    translateY: currentPins.value.localtion?.translateY,
+    opacity: 0
   })
 }
 
