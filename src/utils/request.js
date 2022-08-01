@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { mMessage } from '../libs'
 const request = axios.create({
   baseURL: import.meta.env.VITE_BASE_API,
   timeout: 5000
@@ -21,7 +22,7 @@ request.interceptors.response.use((response) => {
     return Promise.reject(new Error(message))
   }
 }, err=> {
-  console.log('Request Error: ' , err)
+  mMessage('error', err.message)
 })
 
 export default request
