@@ -5,6 +5,7 @@
       :style="{
         backgroundColor: randomRGB()
       }"
+      @click="onToPinsClick"
     >
       <img
         v-lazy
@@ -96,4 +97,13 @@ const onDownload = () => {
 // 生成全屏方法
 const imgTarget = ref(null)
 const { enter: onImgFullScreen } = useFullscreen(imgTarget)
+
+const emits = defineEmits(['click'])
+
+// 进入点击进入详情
+const onToPinsClick = () => {
+  emits('click', {
+    id: props.data.id
+  })
+}
 </script>

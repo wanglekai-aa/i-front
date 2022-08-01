@@ -15,7 +15,7 @@
         :picturePreReading="false"
       >
         <template v-slot="{ item, width }">
-          <list-item :data="item" :width="width" />
+          <list-item :data="item" :width="width" @click="onToPins" />
         </template>
       </m-waterfall>
     </m-infinite-list>
@@ -67,6 +67,12 @@ const resetQuery = (newQuery) => {
   // 情况数据，触发 getPexelsData
   pexelsList.value = []
 }
+
+const onToPins = (item) => {
+  // console.log(item)
+  history.pushState(null, null, '/pins/' + item.id)
+}
+
 const store = useStore()
 watch(
   () => store.getters.currentCategory,

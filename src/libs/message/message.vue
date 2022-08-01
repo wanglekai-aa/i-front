@@ -18,6 +18,7 @@
 </template>
 
 <script>
+import mSvgIcon from '../svg-icon/SvgIcon.vue'
 import { ref } from '@vue/reactivity'
 import { onMounted } from '@vue/runtime-core'
 
