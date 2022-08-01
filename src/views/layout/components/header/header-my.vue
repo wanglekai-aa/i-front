@@ -2,6 +2,7 @@
   <m-popover class="guide-my flex items-center" placement="left-bottom">
     <template #reference>
       <div
+        v-if="false"
         class="guide-my relative flex items-center p-0.5 rounded-sm cursor-pointer duration-200 outline-none hover:bg-zinc-100 dark:hover:bg-zinc-900"
       >
         <!-- 头像 -->
@@ -22,8 +23,13 @@
           class="w-1.5 h-1.5 absolute right-[16px] bottom-0"
         ></m-svg-icon>
       </div>
+      <div v-else>
+        <router-link to="/login">
+          <m-button class="guide-my" icon="profile" iconColor="#fff" />
+        </router-link>
+      </div>
     </template>
-    <div class="w-[140px] overflow-hidden">
+    <div v-if="false" class="w-[140px] overflow-hidden">
       <div
         class="flex items-center p-1 cursor-pointer rounded hover:bg-zinc-100/60 dark:hover:bg-zinc-800"
         v-for="item in menuArr"
