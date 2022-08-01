@@ -20,6 +20,8 @@ request.interceptors.response.use((response) => {
     // TODO：业务错误
     return Promise.reject(new Error(message))
   }
+}, err=> {
+  console.log('Request Error: ' , err)
 })
 
 export default request

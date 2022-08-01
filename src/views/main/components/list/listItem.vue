@@ -71,8 +71,8 @@
 import { randomRGB } from '@/utils/color.js'
 import { saveAs } from 'file-saver'
 import { mMessage } from '@/libs'
-import { ref } from 'vue'
-import { useFullscreen } from '@vueuse/core'
+import { ref, computed } from 'vue'
+import { useElementBounding, useFullscreen } from '@vueuse/core'
 
 const props = defineProps({
   data: {
@@ -98,12 +98,29 @@ const onDownload = () => {
 const imgTarget = ref(null)
 const { enter: onImgFullScreen } = useFullscreen(imgTarget)
 
+// pins 跳转处理，记录图片的中心点位置
+// (X|Y 位置 + 宽|高 的一半)
+const {
+  x: imgContainerX,
+  y: imgContainerY,
+  width: imgContainerWidth,
+  height: imgContainerHeight
+} = useElementBounding(imgTarget)
+
+const imgContainerCenter = computed(() => {
+  return {
+    translateX: parseInt(imgContainerX.value + imgContainerWidth.value / 2),
+    translateY: parseInt(imgContainerY.value + imgContainerHeight.value / 2)
+  }
+})
+
 const emits = defineEmits(['click'])
 
 // 进入点击进入详情
 const onToPinsClick = () => {
   emits('click', {
-    id: props.data.id
+    id: props.data.id,
+    localtion: imgContainerCenter.value
   })
 }
 </script>

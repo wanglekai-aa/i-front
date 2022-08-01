@@ -20,15 +20,28 @@
       </m-waterfall>
     </m-infinite-list>
   </div>
+
+  <!-- 大图详情 -->
+  <transition
+    :css="false"
+    @beforeEnter="beforeEnter"
+    @enter="enter"
+    @leave="leave"
+  >
+    <pins-vue v-if="isVisiblePins" :id="currentPins.id" />
+  </transition>
 </template>
 
 <script setup>
 import listItem from './listItem.vue'
+import pinsVue from '@/views/pins/components/pins.vue'
 import { getPexelsList } from '@/api/pexels.js'
-import { ref } from '@vue/reactivity'
+import { ref, nextTick } from 'vue'
 import { isMobileTerminal } from '@/utils/flexible.js'
 import { watch } from '@vue/runtime-core'
 import { useStore } from 'vuex'
+import gsap from 'gsap'
+import { useEventListener } from '@vueuse/core'
 
 let query = {
   page: 1,
@@ -68,10 +81,54 @@ const resetQuery = (newQuery) => {
   pexelsList.value = []
 }
 
+// 控制 Pins 展示
+const isVisiblePins = ref(false)
+// 当前选中的 pins 属性
+const currentPins = ref({})
+
 const onToPins = (item) => {
-  // console.log(item)
   history.pushState(null, null, '/pins/' + item.id)
+  currentPins.value = item
+  isVisiblePins.value = true
 }
+
+const beforeEnter = (el) => {
+  gsap.set(el, {
+    scaleX: 0,
+    scaleY: 0,
+    transformOrigin: '0 0',
+    translateX: currentPins.value.localtion?.translateX,
+    translateY: currentPins.value.localtion?.translateY
+  })
+}
+
+const enter = (el, done) => {
+  gsap.to(el, {
+    duration: 0.3,
+    scaleX: 1,
+    scaleY: 1,
+    opacity: 1,
+    translateX: 0,
+    translateY: 0,
+    onComplete: done
+  })
+}
+
+const leave = (el) => {
+  gsap.to(el, {
+    duration: 0.3,
+    scaleX: 0,
+    scaleY: 0,
+    translateX: currentPins.value.localtion?.translateX,
+    translateY: currentPins.value.localtion?.translateY,
+    opacity: 0
+  })
+}
+
+// 监听浏览器后退事件
+useEventListener(window, 'popstate', () => {
+  isVisiblePins.value = false
+})
 
 const store = useStore()
 watch(
