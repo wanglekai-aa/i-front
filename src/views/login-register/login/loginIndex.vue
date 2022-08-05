@@ -37,21 +37,31 @@
         账号登录
       </h3>
       <!-- 表单 -->
-      <form>
-        <input
+      <vee-form @submit="onLoginHandler">
+        <vee-field
           class="dark:bg-zinc-800 dark:text-zinc-400 border-b-zinc-400 border-b-[1px] w-full outline-0 pb-1 px-1 text-base focus:border-b-main dark:focus:border-b-zinc-200 xl:dark:bg-zinc-900"
           name="username"
           type="text"
+          :rules="validateUsername"
           placeholder="用户名"
           autocomplete="on"
         />
-        <input
+        <vee-error-message
+          class="text-sm text-red-600 block mt-0.5 text-left"
+          name="username"
+        ></vee-error-message>
+        <vee-field
           class="dark:bg-zinc-800 dark:text-zinc-400 border-b-zinc-400 border-b-[1px] w-full outline-0 pb-1 px-1 text-base focus:border-b-main dark:focus:border-b-zinc-200 xl:dark:bg-zinc-900"
           name="password"
           type="password"
+          :rules="validatePassword"
           placeholder="密码"
           autocomplete="on"
         />
+        <vee-error-message
+          class="text-sm text-red-600 block mt-0.5 text-left"
+          name="password"
+        ></vee-error-message>
 
         <div class="pt-1 pb-3 leading-[0px] text-right">
           <a
@@ -64,7 +74,7 @@
         <m-button class="w-full dark:bg-zinc-900 xl:dark:bg-zinc-800">
           登录
         </m-button>
-      </form>
+      </vee-form>
 
       <div class="flex justify-around mt-4">
         <!-- QQ -->
@@ -75,3 +85,17 @@
     </div>
   </div>
 </template>
+
+<script setup>
+import {
+  Form as VeeForm,
+  Field as VeeField,
+  ErrorMessage as VeeErrorMessage
+} from 'vee-validate'
+
+import { validateUsername, validatePassword } from '../validate'
+
+const onLoginHandler = () => {
+  console.log('login')
+}
+</script>
