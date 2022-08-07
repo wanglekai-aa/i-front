@@ -83,10 +83,17 @@
         <m-svg-icon class="w-4 cursor-pointer" name="wexin"></m-svg-icon>
       </div>
     </div>
+    <!-- 人类行为验证模块 -->
+    <slider-captcha
+      v-if="isSliderCaptchaVisible"
+      @close="isSliderCaptchaVisible = false"
+      @success="onCaptchaSuccess"
+    />
   </div>
 </template>
 
 <script setup>
+import sliderCaptcha from './slider-captcha.vue'
 import {
   Form as VeeForm,
   Field as VeeField,
@@ -94,8 +101,18 @@ import {
 } from 'vee-validate'
 
 import { validateUsername, validatePassword } from '../validate'
+import { ref } from 'vue'
 
+const isSliderCaptchaVisible = ref(false)
+
+// 出发登陆
 const onLoginHandler = () => {
+  isSliderCaptchaVisible.value = true
+}
+
+// 人类行为验证通过
+const onCaptchaSuccess = async () => {
+  isSliderCaptchaVisible.value = false
   console.log('login')
 }
 </script>
