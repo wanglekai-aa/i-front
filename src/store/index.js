@@ -4,6 +4,7 @@ import category from './modules/category'
 import theme from './modules/theme'
 import app from './modules/app'
 import search from './modules/search'
+import user from './modules/user'
 import createPersistedState from 'vuex-persistedstate'
 
 const store = createStore({
@@ -12,12 +13,13 @@ const store = createStore({
     category,
     theme,
     app,
-    search
+    search,
+    user
   },
   plugins: [
     createPersistedState({
       key: 'i-front',
-      path: ['category', 'theme', 'search']
+      path: ['category', 'theme', 'search', 'user']
     })
   ]
 })
