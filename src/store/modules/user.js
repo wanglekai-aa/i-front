@@ -7,7 +7,7 @@ export default {
   state: () => {
     return {
       token: '',
-      userInfo: ''
+      userInfo: null
     }
   },
   mutations: {
@@ -45,6 +45,15 @@ export default {
         }`,
         6000
       )
+    },
+    // 退出登录
+    logout(context) {
+      // 清空 token
+      context.commit('setToken', '')
+      // 清空 用户信息
+      context.commit('setUserInfo', {})
+      // 刷新页面
+      window.location.reload()
     }
   }
 }

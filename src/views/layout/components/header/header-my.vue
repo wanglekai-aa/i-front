@@ -35,6 +35,7 @@
         class="flex items-center p-1 cursor-pointer rounded hover:bg-zinc-100/60 dark:hover:bg-zinc-800"
         v-for="item in menuArr"
         :key="item.id"
+        @click="onMenuItemClick(item)"
       >
         <m-svg-icon
           :name="item.icon"
@@ -50,9 +51,27 @@
 </template>
 
 <script setup>
+import { useStore } from 'vuex'
+import { mConfirm } from '@/libs'
+import { useRouter } from 'vue-router'
+
 const menuArr = [
   { id: 101, title: '个人资料', icon: 'profile', path: '/profile' },
   { id: 102, title: '升级 VIP', icon: 'vip-profile', path: '/member' },
   { id: 103, title: '退出登录', icon: 'logout', path: '' }
 ]
+
+const store = useStore()
+const router = useRouter()
+
+const onMenuItemClick = (item) => {
+  if (item.path) {
+    return router.push(item.path)
+  }
+
+  // 退出登录
+  mConfirm('提示', '确定退出登录吗?').then(() => {
+    store.dispatch('user/logout')
+  })
+}
 </script>
