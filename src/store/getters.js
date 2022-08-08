@@ -13,5 +13,6 @@ export default {
   searchHistories: (state) => state.search.histories,
   // 搜索文本
   searchText: (state) => state.app.searchText,
-  token: (state) => state.user.token
+  token: (state) => state.user.token,
+  userInfo: (state) => state.user.userInfo
 }

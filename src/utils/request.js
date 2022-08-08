@@ -1,4 +1,5 @@
 import axios from 'axios'
+import store from '../store'
 import { mMessage } from '../libs'
 const request = axios.create({
   baseURL: import.meta.env.VITE_BASE_API,
@@ -8,6 +9,10 @@ const request = axios.create({
 // 请求拦截器
 request.interceptors.request.use((config) => {
   config.headers.icode = '5C05D847DC5F4978'
+  const token = store.getters.token
+  if (token) {
+    config.headers.Authorization = `Bearer ${token}`
+  }
   return config
 })
 
