@@ -31,6 +31,12 @@ request.interceptors.response.use(
   },
   (err) => {
     mMessage('error', err.message)
+
+    // 处理 token 超时
+    if (err.response && err.response.data && err.response.data.code === 401) {
+      store.dispatch('user/logout')
+    }
+    return Promise.reject(err)
   }
 )
 
