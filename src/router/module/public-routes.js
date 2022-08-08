@@ -1,4 +1,5 @@
-import loginIndex from '@/views/login-register/login/loginIndex.vue'
+// import loginIndex from '@/views/login-register/login/loginIndex.vue'
+// import registerIndex from '@/views/login-register/register/registerIndex.vue'
 
 export default [
   {
@@ -9,6 +10,11 @@ export default [
   {
     path: '/login',
     name: 'login',
-    component: loginIndex
+    component: () => import('@/views/login-register/login/loginIndex.vue')
+  },
+  {
+    path: '/register',
+    name: 'register',
+    component: () => import('@/views/login-register/register/registerIndex.vue')
   }
 ]

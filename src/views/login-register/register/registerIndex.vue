@@ -34,10 +34,11 @@
       <h3
         class="mb-2 font-semibold text-base text-main dark:text-zinc-300 hidden xl:block"
       >
-        账号登录
+        账号注册
       </h3>
       <!-- 表单 -->
-      <vee-form @submit="onLoginHandler">
+      <vee-form @submit="onRegister">
+        <!-- 用户名 -->
         <vee-field
           class="dark:bg-zinc-800 dark:text-zinc-400 border-b-zinc-400 border-b-[1px] w-full outline-0 pb-1 px-1 text-base focus:border-b-main dark:focus:border-b-zinc-200 xl:dark:bg-zinc-900"
           name="username"
@@ -45,12 +46,13 @@
           :rules="validateUsername"
           placeholder="用户名"
           autocomplete="on"
-          v-model="loginForm.username"
+          v-model="regForm.username"
         />
         <vee-error-message
           class="text-sm text-red-600 block mt-0.5 text-left"
           name="username"
         ></vee-error-message>
+        <!-- 密码 -->
         <vee-field
           class="dark:bg-zinc-800 dark:text-zinc-400 border-b-zinc-400 border-b-[1px] w-full outline-0 pb-1 px-1 text-base focus:border-b-main dark:focus:border-b-zinc-200 xl:dark:bg-zinc-900"
           name="password"
@@ -58,89 +60,102 @@
           :rules="validatePassword"
           placeholder="密码"
           autocomplete="on"
-          v-model="loginForm.password"
+          v-model="regForm.password"
         />
         <vee-error-message
           class="text-sm text-red-600 block mt-0.5 text-left"
           name="password"
         ></vee-error-message>
 
+        <!-- 确认密码 -->
+        <vee-field
+          class="dark:bg-zinc-800 dark:text-zinc-400 border-b-zinc-400 border-b-[1px] w-full outline-0 pb-1 px-1 text-base focus:border-b-main dark:focus:border-b-zinc-200 xl:dark:bg-zinc-900"
+          name="confirmPassword"
+          type="password"
+          rules="validateConfirmPassword:@password"
+          placeholder="确认密码"
+          autocomplete="on"
+          v-model="regForm.confirmPassword"
+        />
+        <vee-error-message
+          class="text-sm text-red-600 block mt-0.5 text-left"
+          name="confirmPassword"
+        ></vee-error-message>
+
         <div class="pt-1 pb-3 leading-[0px] text-right">
           <router-link
-            to="/register"
+            to="/login"
             class="inline-block p-1 text-zinc-400 text-right dark:text-zinc-600 hover:text-zinc-600 dark:hover:text-zinc-400 text-sm duration-400 cursor-pointer"
           >
-            去注册
+            去登录
           </router-link>
+        </div>
+
+        <div class="text-center">
+          <a
+            class="text-zinc-400 dark:text-zinc-600 hover:text-zinc-600 dark:hover:text-zinc-400 text-sm duration-300"
+            target="_blank"
+            href="https://m.imooc.com/newfaq?id=89"
+            >注册即同意《慕课网注册协议》</a
+          >
         </div>
 
         <m-button
           :loading="loading"
-          class="w-full dark:bg-zinc-900 xl:dark:bg-zinc-800"
+          class="w-full dark:bg-zinc-900 xl:dark:bg-zinc-800 mt-1"
         >
-          登录
+          立即注册
         </m-button>
       </vee-form>
-
-      <div class="flex justify-around mt-4">
-        <!-- QQ -->
-        <m-svg-icon class="w-4 cursor-pointer" name="qq"></m-svg-icon>
-        <!-- 微信 -->
-        <m-svg-icon class="w-4 cursor-pointer" name="wexin"></m-svg-icon>
-      </div>
     </div>
-    <!-- 人类行为验证模块 -->
-    <slider-captcha
-      v-if="isSliderCaptchaVisible"
-      @close="isSliderCaptchaVisible = false"
-      @success="onCaptchaSuccess"
-    />
   </div>
 </template>
 
 <script setup>
-import sliderCaptcha from './slider-captcha.vue'
 import {
   Form as VeeForm,
   Field as VeeField,
-  ErrorMessage as VeeErrorMessage
+  ErrorMessage as VeeErrorMessage,
+  defineRule
 } from 'vee-validate'
 
-import { validateUsername, validatePassword } from '../validate'
+import {
+  validateUsername,
+  validatePassword,
+  validateConfirmPassword
+} from '../validate'
 import { ref } from 'vue'
 import { LOGIN_TYPE_USERNAME } from '@/constants'
 import { useStore } from 'vuex'
 import { useRouter } from 'vue-router'
 
-const isSliderCaptchaVisible = ref(false)
-
-// 触发登陆
-const onLoginHandler = () => {
-  isSliderCaptchaVisible.value = true
-}
+// 追加一条验证规则
+defineRule('validateConfirmPassword', validateConfirmPassword)
 
 const loading = ref(false)
 
-// 人类行为验证通过
-const onCaptchaSuccess = async () => {
-  isSliderCaptchaVisible.value = false
-  onLogin()
-}
-
-const loginForm = ref({
-  username: 'username1',
-  password: '123123'
+const regForm = ref({
+  username: '',
+  password: '',
+  confirmPassword: ''
 })
 const store = useStore()
 const router = useRouter()
 
-// 用户登录
-const onLogin = async () => {
+// 用户注册
+const onRegister = async () => {
   loading.value = true
 
   try {
+    const payload = {
+      username: regForm.value.username,
+      password: regForm.value.password
+    }
+    // 触发注册
+    await store.dispatch('user/register', payload)
+    // 注册成功后，触发登录
     await store.dispatch('user/login', {
-      ...loginForm.value,
+      ...payload,
       loginType: LOGIN_TYPE_USERNAME
     })
   } finally {
