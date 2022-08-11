@@ -44,6 +44,7 @@ const pcOptions = {
 </script>
 
 <script setup>
+import { putProfile } from '@/api/sys'
 import { mMessage } from '@/libs'
 import { isMobileTerminal } from '@/utils/flexible'
 import { getOSSClient } from '@/utils/sts'
@@ -72,13 +73,10 @@ const onConfirmClick = () => {
     // console.log('blob: ', blob)
     // console.log(URL.createObjectURL(blob))
     putObjectToOSS(blob)
-    loading.value = false
   })
 }
 
-/**
- * 关闭事件
- */
+// 关闭事件
 const close = () => {
   emits(EMITS_CLOSE)
 }
@@ -114,9 +112,27 @@ const putObjectToOSS = async (file) => {
     }/${Date.now()}.${suffix}`
     // 文件存放的路径
     const res = await ossClient.put(`images/${fileName}`, file)
-    console.log(res)
+    // console.log(res)
+    onChangeProfile(res.url)
   } catch (error) {
     mMessage('warn', error)
   }
+}
+
+// 上传新头像到服务器
+const onChangeProfile = async (avatar) => {
+  // 更新本地数据
+  store.commit('user/setUserInfo', {
+    ...store.getters.userInfo,
+    avatar
+  })
+  // 更新服务器数据
+  await putProfile(store.getters.userInfo)
+  // 通知用户
+  mMessage('success', '用户头像修改成功')
+  // 关闭 loading
+  loading.value = false
+  // 关闭 dialog
+  close()
 }
 </script>
