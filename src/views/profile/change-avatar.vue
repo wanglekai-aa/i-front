@@ -44,10 +44,13 @@ const pcOptions = {
 </script>
 
 <script setup>
+import { mMessage } from '@/libs'
 import { isMobileTerminal } from '@/utils/flexible'
+import { getOSSClient } from '@/utils/sts'
 import Cropper from 'cropperjs'
 import 'cropperjs/dist/cropper.css'
 import { ref, onMounted } from 'vue'
+import { useStore } from 'vuex'
 
 defineProps({
   blob: {
@@ -66,7 +69,10 @@ const onConfirmClick = () => {
   // 获取裁剪后的图片
   cropper.getCroppedCanvas().toBlob((blob) => {
     // 裁剪后的 blob 地址
-    console.log(URL.createObjectURL(blob))
+    // console.log('blob: ', blob)
+    // console.log(URL.createObjectURL(blob))
+    putObjectToOSS(blob)
+    loading.value = false
   })
 }
 
@@ -91,4 +97,26 @@ onMounted(() => {
     isMobileTerminal.value ? mobileOptions : pcOptions
   )
 })
+
+// OSS 上传
+let ossClient = null
+const store = useStore()
+const putObjectToOSS = async (file) => {
+  if (!ossClient) {
+    ossClient = await getOSSClient()
+  }
+
+  try {
+    const fileTypeArr = file.type.split('/')
+    const suffix = fileTypeArr[fileTypeArr.length - 1]
+    const fileName = `${
+      store.getters.userInfo.nickname
+    }/${Date.now()}.${suffix}`
+    // 文件存放的路径
+    const res = await ossClient.put(`images/${fileName}`, file)
+    console.log(res)
+  } catch (error) {
+    mMessage('warn', error)
+  }
+}
 </script>
