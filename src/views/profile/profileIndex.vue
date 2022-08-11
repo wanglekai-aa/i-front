@@ -132,6 +132,19 @@
       </div>
     </div>
   </div>
+
+  <!-- PC 端 -->
+  <m-dialog v-if="!isMobileTerminal" v-model="isDialogVisible">
+    <change-avatar :blob="currentBlob" @close="isDialogVisible = false" />
+  </m-dialog>
+  <!-- 移动端：在展示时指定高度 -->
+  <m-popup
+    v-else
+    :class="{ 'h-screen': isDialogVisible }"
+    v-model="isDialogVisible"
+  >
+    <change-avatar :blob="currentBlob" @close="isDialogVisible = false" />
+  </m-popup>
 </template>
 
 <script>
@@ -141,11 +154,12 @@ export default {
 </script>
 
 <script setup>
+import changeAvatar from './change-avatar.vue'
 import { isMobileTerminal } from '@/utils/flexible'
 import { mConfirm } from '@/libs'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
-import { ref } from 'vue'
+import { ref, watch } from 'vue'
 import { putProfile } from '@/api/sys'
 import { mMessage } from '@/libs'
 
@@ -154,28 +168,29 @@ const router = useRouter()
 
 // 隐藏域
 const inputFileTarget = ref(null)
-/**
- * 更换头像点击事件
- */
+// 更换头像点击事件
 const onAvatarClick = () => {
   inputFileTarget.value.click()
 }
 
-/**
- * 头像选择之后的回调
- */
-const onSelectImgHandler = () => {}
+const isDialogVisible = ref(false)
+const currentBlob = ref('')
 
-/**
- * 移动端后退处理
- */
+// 头像选择之后的回调
+const onSelectImgHandler = () => {
+  const imgFile = inputFileTarget.value.files[0]
+  const blob = URL.createObjectURL(imgFile)
+
+  currentBlob.value = blob
+  isDialogVisible.value = true
+}
+
+// 移动端后退处理
 const onNavbarLeftClick = () => {
   router.back()
 }
 
-/**
- * 移动端：退出登录
- */
+// 移动端：退出登录
 const onLogoutClick = () => {
   mConfirm('确定要退出登录吗？').then(() => {
     store.dispatch('user/logout')
@@ -193,4 +208,12 @@ const onChangeProfile = async () => {
   mMessage('success', '修改成功～')
   loading.value = false
 }
+
+// 监听 dialog 关闭
+watch(isDialogVisible, (val) => {
+  if (!val) {
+    // 防止 change 不重复触发
+    inputFileTarget.value.value = null
+  }
+})
 </script>
