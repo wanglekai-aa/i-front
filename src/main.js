@@ -8,6 +8,7 @@ import useTheme from '@/utils/theme'
 import directives from './directives'
 import './styles/index.scss'
 import 'virtual:svg-icons-register'
+import './permission'
 
 useRem()
 useTheme()
