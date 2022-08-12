@@ -7,11 +7,49 @@
       <list-index />
     </div>
   </div>
+  <m-trigger-menu
+    v-if="isMobileTerminal"
+    class="fixed bottom-6 m-auto left-0 right-0 w-[220px]"
+  >
+    <m-trigger-menu-item
+      icon="home"
+      iconClass="fill-zinc-900 dark:fill-zinc-200"
+    >
+      首页
+    </m-trigger-menu-item>
+    <m-trigger-menu-item
+      v-if="$store.getters.token"
+      icon="vip"
+      iconClass="fill-zinc-400 dark:fill-zinc-500"
+      textClass="text-zinc-400 dark:text-zinc-500"
+      @click="onVipClick"
+    >
+      VIP
+    </m-trigger-menu-item>
+    <m-trigger-menu-item
+      icon="profile"
+      iconClass="fill-zinc-400 dark:fill-zinc-500"
+      textClass="text-zinc-400 dark:text-zinc-500"
+      @click="onMyClick"
+    >
+      {{ $store.getters.token ? '我的' : '去登录' }}
+    </m-trigger-menu-item>
+  </m-trigger-menu>
 </template>
 
 <script setup>
 import NavigationIndex from './components/navigation/NavigationIndex.vue'
 import listIndex from './components/list/listIndex.vue'
-</script>
+import { isMobileTerminal } from '@/utils/flexible'
+import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 
-<style></style>
+const router = useRouter()
+const store = useStore()
+const onMyClick = () => {
+  if (store.getters.token) {
+    return router.push('/profile')
+  }
+  router.push('/login')
+}
+</script>
