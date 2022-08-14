@@ -63,7 +63,10 @@ const onMyClick = () => {
   router.push('/login')
 }
 
-const onVipClick = () => {}
+const onVipClick = () => {
+  store.commit('app/changeRouterType', 'push')
+  router.push('/member')
+}
 
 /**
  * 记录页面滚动位置

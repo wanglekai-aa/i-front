@@ -65,6 +65,7 @@ const store = useStore()
 const router = useRouter()
 
 const onMenuItemClick = (item) => {
+  store.commit('app/changeRouterType', 'push')
   if (item.path) {
     return router.push(item.path)
   }
