@@ -131,20 +131,19 @@
         </m-button>
       </div>
     </div>
+    <!-- PC 端 -->
+    <m-dialog v-if="!isMobileTerminal" v-model="isDialogVisible">
+      <change-avatar :blob="currentBlob" @close="isDialogVisible = false" />
+    </m-dialog>
+    <!-- 移动端：在展示时指定高度 -->
+    <m-popup
+      v-else
+      :class="{ 'h-screen': isDialogVisible }"
+      v-model="isDialogVisible"
+    >
+      <change-avatar :blob="currentBlob" @close="isDialogVisible = false" />
+    </m-popup>
   </div>
-
-  <!-- PC 端 -->
-  <m-dialog v-if="!isMobileTerminal" v-model="isDialogVisible">
-    <change-avatar :blob="currentBlob" @close="isDialogVisible = false" />
-  </m-dialog>
-  <!-- 移动端：在展示时指定高度 -->
-  <m-popup
-    v-else
-    :class="{ 'h-screen': isDialogVisible }"
-    v-model="isDialogVisible"
-  >
-    <change-avatar :blob="currentBlob" @close="isDialogVisible = false" />
-  </m-popup>
 </template>
 
 <script>
@@ -187,6 +186,7 @@ const onSelectImgHandler = () => {
 
 // 移动端后退处理
 const onNavbarLeftClick = () => {
+  store.commit('app/changeRouterType', 'back')
   router.back()
 }
 

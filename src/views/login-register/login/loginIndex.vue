@@ -146,6 +146,7 @@ const onLogin = async () => {
   } finally {
     loading.value = false
   }
+  store.commit('app/changeRouterType', 'push')
   router.push('/')
 }
 </script>

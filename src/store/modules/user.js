@@ -28,7 +28,6 @@ export default {
         ...payload,
         password: password ? md5(password) : ''
       })
-      console.log(data)
       context.commit('setToken', data.token)
       context.dispatch('profile')
     },

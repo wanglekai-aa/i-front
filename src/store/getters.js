@@ -1,3 +1,5 @@
+import { isMobileTerminal } from '@/utils/flexible'
+
 export default {
   categories: (state) => state.category.categories,
   themeType: (state) => state.theme.themeType,
@@ -14,5 +16,14 @@ export default {
   // 搜索文本
   searchText: (state) => state.app.searchText,
   token: (state) => state.user.token,
-  userInfo: (state) => state.user.userInfo
+  userInfo: (state) => state.user.userInfo,
+
+  // 路由跳转方式
+  routerType: (state) => {
+    // 在 PC 端下，永远为 none
+    if (!isMobileTerminal.value) {
+      return 'none'
+    }
+    return state.app.routerType
+  }
 }
