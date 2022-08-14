@@ -59,11 +59,6 @@ const virtualTaskStack = ref([props.mainComponentName])
 
 // 监听路由变化
 router.beforeEach((to, from) => {
-  // 进入首页默认清空栈
-  if (to.name === props.mainComponentName) {
-    clearTask()
-  }
-
   // 定义当前动画名称
   transitionName.value = props.routerType
 
@@ -73,6 +68,11 @@ router.beforeEach((to, from) => {
   } else if (props.routerType === BACK) {
     // 出栈
     virtualTaskStack.value.pop()
+  }
+
+  // 进入首页默认清空栈
+  if (to.name === props.mainComponentName) {
+    clearTask()
   }
 })
 
