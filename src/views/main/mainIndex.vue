@@ -37,6 +37,12 @@
   </div>
 </template>
 
+<script>
+export default {
+  name: 'home'
+}
+</script>
+
 <script setup>
 import NavigationIndex from './components/navigation/NavigationIndex.vue'
 import listIndex from './components/list/listIndex.vue'
